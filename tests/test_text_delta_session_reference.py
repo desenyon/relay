@@ -114,10 +114,7 @@ def test_decode_text_errors(reg: SchemaRegistry, monkeypatch: pytest.MonkeyPatch
         decode_text("", registry=reg)
     with pytest.raises(ParseError):
         decode_text("no header\n", registry=reg)
-    bad = (
-        f"@relay 1.0\n@schema {sch.name}:ffffffff\n@type FULL\n\n"
-        "a: string \"x\"\n"
-    )
+    bad = f"@relay 1.0\n@schema {sch.name}:ffffffff\n@type FULL\n\n" 'a: string "x"\n'
     with pytest.raises(SchemaNotFoundError):
         decode_text(bad, registry=reg)
 
@@ -188,7 +185,9 @@ def test_session_errors(tool_call_schema: object, tool_call_message_dict: dict) 
         sess.resolve_ref(RelayRef(sess.session_id, 99, "x"))
 
 
-def test_resolve_path_empty_and_nested(tool_call_schema: object, tool_call_message_dict: dict) -> None:
+def test_resolve_path_empty_and_nested(
+    tool_call_schema: object, tool_call_message_dict: dict
+) -> None:
     msg = decode(encode(tool_call_message_dict, tool_call_schema), schema=tool_call_schema)
     d = resolve_path(msg, "")
     assert "role" in d
