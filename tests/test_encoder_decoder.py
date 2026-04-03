@@ -94,9 +94,7 @@ def test_uuid_uri_datetime_enum_vector():
         "u": "https://example.com/x",
         "d": dt,
         "r": "b",
-        "vec": VectorValue(
-            VectorDtype.FLOAT32, 2, np.array([1.0, 2.0], dtype=np.float32)
-        ),
+        "vec": VectorValue(VectorDtype.FLOAT32, 2, np.array([1.0, 2.0], dtype=np.float32)),
     }
     m = decode(encode(obj, sch), schema=sch)
     assert m.get_field("id").value == uid
