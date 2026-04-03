@@ -10,12 +10,25 @@ from __future__ import annotations
 from typing import Any
 
 from relay.decoder import decode
-from relay.encoder import _build_frame, _encode_delta_op_bytes, _encode_ref_bytes, _pack_field_frame, encode
+from relay.encoder import (
+    _build_frame,
+    _encode_delta_op_bytes,
+    _encode_ref_bytes,
+    _pack_field_frame,
+    encode,
+)
 from relay.errors import DeltaConflictError, EncodingError, ValidationError
 from relay.registry import get_default_registry
 from relay.schema import RelaySchema as SourceSchema
 from relay.schema_compile import compile_schema
-from relay.types import DeltaOp, DeltaOpType, MessageType, RelayField, RelayMessage, RelayRef, TypeTag
+from relay.types import (
+    DeltaOp,
+    DeltaOpType,
+    MessageType,
+    RelayField,
+    RelayMessage,
+    TypeTag,
+)
 
 
 def delta(
@@ -191,4 +204,4 @@ def _apply_one_op(plain: dict[str, Any], op: DeltaOp) -> None:
         )
 
 
-__all__ = ["delta", "apply_delta"]
+__all__ = ["apply_delta", "delta"]
