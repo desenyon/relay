@@ -1,0 +1,92 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "relay-format"
+version = "0.1.0"
+description = "Production-grade data interchange format for agentic AI runtimes"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Naitik Gupta", email = "naitik@saerinresearch.ai" }]
+keywords = ["relay", "wire-format", "ai", "agents", "binary", "streaming"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Internet :: WWW/HTTP",
+]
+requires-python = ">=3.10"
+dependencies = [
+  "pydantic>=2.0",
+  "click>=8.0",
+  "rich>=13.0",
+  "msgpack>=1.0",
+  "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0",
+  "pytest-cov",
+  "hypothesis",
+  "black",
+  "ruff",
+  "mypy",
+  "twine",
+  "build",
+  "mkdocs>=1.5",
+  "mkdocs-material>=9.0",
+]
+
+[project.scripts]
+relay = "relay.cli.main:cli"
+
+[project.urls]
+Homepage = "https://github.com/desenyon/relay"
+Documentation = "https://desenyon.github.io/relay"
+Repository = "https://github.com/desenyon/relay"
+Issues = "https://github.com/desenyon/relay/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["relay"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/relay", "/tests", "/spec", "/docs", "README.md", "LICENSE"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "PT", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.isort]
+known-first-party = ["relay"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+warn_return_any = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=relay --cov-report=term-missing --cov-fail-under=70"
+
+[tool.coverage.run]
+source = ["relay"]
+omit = ["*/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+  "if __name__ == .__main__.:",
+  "raise NotImplementedError",
+  "@abstractmethod",
+]
