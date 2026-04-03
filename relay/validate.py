@@ -45,36 +45,36 @@ if TYPE_CHECKING:
 #: to their wire-level :class:`~relay.types.TypeTag`.  Parameterised types
 #: (``enum<…>``, ``vector<…>``) are matched by prefix in validation logic.
 TYPE_NAME_TO_TAG: dict[str, TypeTag] = {
-    "null":           TypeTag.NULL,
-    "bool":           TypeTag.BOOL,
-    "boolean":        TypeTag.BOOL,
-    "int8":           TypeTag.INT8,
-    "int16":          TypeTag.INT16,
-    "int32":          TypeTag.INT32,
-    "int64":          TypeTag.INT64,
-    "uint8":          TypeTag.UINT8,
-    "uint16":         TypeTag.UINT16,
-    "uint32":         TypeTag.UINT32,
-    "uint64":         TypeTag.UINT64,
-    "float32":        TypeTag.FLOAT32,
-    "float64":        TypeTag.FLOAT64,
-    "string":         TypeTag.STRING,
-    "str":            TypeTag.STRING,
-    "bytes":          TypeTag.BYTES,
-    "array":          TypeTag.ARRAY,
-    "object":         TypeTag.OBJECT,
-    "uuid":           TypeTag.UUID,
-    "datetime":       TypeTag.DATETIME,
-    "uri":            TypeTag.URI,
-    "vector":         TypeTag.VECTOR,
-    "enum":           TypeTag.ENUM,
-    "code_block":     TypeTag.CODE_BLOCK,
+    "null": TypeTag.NULL,
+    "bool": TypeTag.BOOL,
+    "boolean": TypeTag.BOOL,
+    "int8": TypeTag.INT8,
+    "int16": TypeTag.INT16,
+    "int32": TypeTag.INT32,
+    "int64": TypeTag.INT64,
+    "uint8": TypeTag.UINT8,
+    "uint16": TypeTag.UINT16,
+    "uint32": TypeTag.UINT32,
+    "uint64": TypeTag.UINT64,
+    "float32": TypeTag.FLOAT32,
+    "float64": TypeTag.FLOAT64,
+    "string": TypeTag.STRING,
+    "str": TypeTag.STRING,
+    "bytes": TypeTag.BYTES,
+    "array": TypeTag.ARRAY,
+    "object": TypeTag.OBJECT,
+    "uuid": TypeTag.UUID,
+    "datetime": TypeTag.DATETIME,
+    "uri": TypeTag.URI,
+    "vector": TypeTag.VECTOR,
+    "enum": TypeTag.ENUM,
+    "code_block": TypeTag.CODE_BLOCK,
     "markdown_block": TypeTag.MARKDOWN_BLOCK,
-    "ref":            TypeTag.REF,
-    "delta_op":       TypeTag.DELTA_OP,
+    "ref": TypeTag.REF,
+    "delta_op": TypeTag.DELTA_OP,
     # Aliases occasionally used in text format
-    "markdown":       TypeTag.MARKDOWN_BLOCK,
-    "code":           TypeTag.CODE_BLOCK,
+    "markdown": TypeTag.MARKDOWN_BLOCK,
+    "code": TypeTag.CODE_BLOCK,
 }
 
 
@@ -608,14 +608,19 @@ def _check_python_type_compatibility(
                 )
 
         case (
-            TypeTag.INT8 | TypeTag.INT16 | TypeTag.INT32 | TypeTag.INT64
-            | TypeTag.UINT8 | TypeTag.UINT16 | TypeTag.UINT32 | TypeTag.UINT64
+            TypeTag.INT8
+            | TypeTag.INT16
+            | TypeTag.INT32
+            | TypeTag.INT64
+            | TypeTag.UINT8
+            | TypeTag.UINT16
+            | TypeTag.UINT32
+            | TypeTag.UINT64
         ):
             # bool is a subclass of int in Python — reject it for integer fields
             if isinstance(value, bool) or not isinstance(value, int):
                 raise TypeMismatchError(
-                    f"Field '{path}' expects an integer type, "
-                    f"got {type(value).__name__}",
+                    f"Field '{path}' expects an integer type, " f"got {type(value).__name__}",
                     field_path=path,
                     details={"expected": tag.name, "got": type(value).__name__},
                 )
@@ -666,8 +671,7 @@ def _check_python_type_compatibility(
         case TypeTag.ARRAY:
             if not isinstance(value, (list, tuple)):
                 raise TypeMismatchError(
-                    f"Field '{path}' expects a list/tuple, "
-                    f"got {type(value).__name__}",
+                    f"Field '{path}' expects a list/tuple, " f"got {type(value).__name__}",
                     field_path=path,
                     details={"expected": "array", "got": type(value).__name__},
                 )
