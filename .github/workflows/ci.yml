@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Lint
+        run: |
+          ruff check relay/ tests/
+          black --check relay/ tests/
+      - name: Test
+        run: pytest tests/ -q --cov=relay --cov-report=term-missing --cov-fail-under=70
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: relay-js
+        run: |
+          npm ci
+          npm run build -w relay-js
+          npm test -w relay-js
