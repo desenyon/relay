@@ -117,7 +117,14 @@ def _value_repr(type_tag: int, value: Any) -> str:
     if type_tag == 0x02:
         return str(value)
     if type_tag in (
-        0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A,
+        0x03,
+        0x04,
+        0x05,
+        0x06,
+        0x07,
+        0x08,
+        0x09,
+        0x0A,
     ):
         return str(int(value))
     if type_tag in (0x0B, 0x0C):
@@ -225,9 +232,7 @@ def _render_pretty(message: Any) -> None:
     message : RelayMessage
         Decoded message object.
     """
-    msg_type_name = _MSG_TYPE_NAMES.get(
-        getattr(message, "message_type", 0), "UNKNOWN"
-    )
+    msg_type_name = _MSG_TYPE_NAMES.get(getattr(message, "message_type", 0), "UNKNOWN")
     schema_hash = getattr(message, "schema_hash", b"\x00\x00\x00\x00")
     if isinstance(schema_hash, bytes):
         hash_hex = schema_hash.hex()
@@ -353,9 +358,7 @@ def inspect_cmd(file: str, output_format: str, schema_id: str | None) -> None:
             else:
                 override_schema = default_registry.get_by_hash(parts[0].lower())
         except Exception as exc:
-            console.print(
-                f"[yellow]Warning:[/yellow] Could not load schema '{schema_id}': {exc}"
-            )
+            console.print(f"[yellow]Warning:[/yellow] Could not load schema '{schema_id}': {exc}")
 
     # --- Decode --------------------------------------------------------------
     try:
