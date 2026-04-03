@@ -113,7 +113,7 @@ def resolve_path(message: RelayMessage, field_path: str) -> Any:
                     f"Cannot descend into field {name!r} for path {field_path!r}",
                     field_path=field_path,
                 )
-    raise RelayReferenceError(
+    raise RelayReferenceError(  # pragma: no cover — loop always returns or raises earlier
         f"Unresolved path {field_path!r}",
         field_path=field_path,
     )
