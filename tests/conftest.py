@@ -8,13 +8,10 @@ depend on any specific ``.rschema`` file being present on disk.
 
 from __future__ import annotations
 
-import os
-import tempfile
 from pathlib import Path
 from typing import Any
 from uuid import UUID
 
-import numpy as np
 import pytest
 
 # ---------------------------------------------------------------------------
@@ -290,7 +287,7 @@ def anthropic_tool_use_dict() -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 
-@pytest.fixture()
+@pytest.fixture
 def tmp_registry_dir(tmp_path: Path) -> Path:
     """A temporary directory suitable for use as a schema registry root.
 
@@ -309,7 +306,7 @@ def tmp_registry_dir(tmp_path: Path) -> Path:
     return registry
 
 
-@pytest.fixture()
+@pytest.fixture
 def tmp_schema_file(tmp_path: Path, simple_schema) -> Path:
     """Write ``simple_schema`` to a temporary ``.rschema`` file.
 
@@ -353,7 +350,7 @@ def tmp_schema_file(tmp_path: Path, simple_schema) -> Path:
 # ---------------------------------------------------------------------------
 
 
-@pytest.fixture()
+@pytest.fixture
 def simple_binary(simple_schema, simple_message_dict) -> bytes:
     """Return binary-encoded Relay bytes for ``simple_message_dict``.
 
@@ -371,7 +368,7 @@ def simple_binary(simple_schema, simple_message_dict) -> bytes:
     return encode(simple_message_dict, simple_schema)
 
 
-@pytest.fixture()
+@pytest.fixture
 def tool_call_binary(tool_call_schema, tool_call_message_dict) -> bytes:
     """Return binary-encoded Relay bytes for ``tool_call_message_dict``.
 
