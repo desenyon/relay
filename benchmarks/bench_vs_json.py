@@ -162,6 +162,7 @@ _TARGETS: dict[str, float] = {
 # Measurement helpers
 # ---------------------------------------------------------------------------
 
+
 def _us_per_op(fn, iterations: int) -> float:
     """Run *fn* for *iterations* times, return microseconds per call."""
     elapsed = timeit.timeit(fn, number=iterations)
@@ -183,52 +184,59 @@ def run_benchmarks(iterations: int) -> list[dict]:
     large_bytes = relay.encode(LARGE_DICT, large_schema)
 
     import json as _json
+
     small_json_str = _json.dumps(SMALL_DICT)
     medium_json_str = _json.dumps(MEDIUM_DICT)
     large_json_str = _json.dumps(LARGE_DICT)
 
     encode_cases = [
-        ("encode_small",  SMALL_DICT,  small_schema,  small_json_str),
+        ("encode_small", SMALL_DICT, small_schema, small_json_str),
         ("encode_medium", MEDIUM_DICT, medium_schema, medium_json_str),
-        ("encode_large",  LARGE_DICT,  large_schema,  large_json_str),
+        ("encode_large", LARGE_DICT, large_schema, large_json_str),
     ]
     decode_cases = [
-        ("decode_small",  small_bytes,  small_json_str),
+        ("decode_small", small_bytes, small_json_str),
         ("decode_medium", medium_bytes, medium_json_str),
-        ("decode_large",  large_bytes,  large_json_str),
+        ("decode_large", large_bytes, large_json_str),
     ]
 
     results = []
 
     for op, payload, schema, json_str in encode_cases:
         relay_us = _us_per_op(lambda p=payload, s=schema: relay.encode(p, s), iterations)
-        json_us = _us_per_op(lambda js=json_str: _json.loads(js) or _json.dumps(payload), iterations)
+        json_us = _us_per_op(
+            lambda js=json_str: _json.loads(js) or _json.dumps(payload), iterations
+        )
         # json encode (not decode)
         json_enc_us = _us_per_op(lambda p=payload: _json.dumps(p), iterations)
         target = _TARGETS[op]
         ratio = json_enc_us / relay_us
-        results.append({
-            "operation": op,
-            "relay_us_per_op": round(relay_us, 4),
-            "json_us_per_op": round(json_enc_us, 4),
-            "ratio": round(ratio, 4),
-            "target_ratio": target,
-            "passed": ratio >= target,
-        })
+        results.append(
+            {
+                "operation": op,
+                "relay_us_per_op": round(relay_us, 4),
+                "json_us_per_op": round(json_enc_us, 4),
+                "ratio": round(ratio, 4),
+                "target_ratio": target,
+                "passed": ratio >= target,
+            }
+        )
 
     for op, relay_bytes, json_str in decode_cases:
         relay_us = _us_per_op(lambda rb=relay_bytes: relay.decode(rb), iterations)
         json_us = _us_per_op(lambda js=json_str: _json.loads(js), iterations)
         target = _TARGETS[op]
         ratio = json_us / relay_us
-        results.append({
-            "operation": op,
-            "relay_us_per_op": round(relay_us, 4),
-            "json_us_per_op": round(json_us, 4),
-            "ratio": round(ratio, 4),
-            "target_ratio": target,
-            "passed": ratio >= target,
-        })
+        results.append(
+            {
+                "operation": op,
+                "relay_us_per_op": round(relay_us, 4),
+                "json_us_per_op": round(json_us, 4),
+                "ratio": round(ratio, 4),
+                "target_ratio": target,
+                "passed": ratio >= target,
+            }
+        )
 
     return results
 
@@ -236,6 +244,7 @@ def run_benchmarks(iterations: int) -> list[dict]:
 # ---------------------------------------------------------------------------
 # Output helpers
 # ---------------------------------------------------------------------------
+
 
 def _print_table(results: list[dict]) -> None:
     print()
@@ -271,6 +280,7 @@ def build_output(results: list[dict]) -> dict:
 # ---------------------------------------------------------------------------
 # CLI entry point
 # ---------------------------------------------------------------------------
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(
