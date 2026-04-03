@@ -160,6 +160,7 @@ def format_row(
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main() -> None:
     registry = SchemaRegistry()
     small_schema = RelaySchema.from_dict(SMALL_SCHEMA_DICT)
