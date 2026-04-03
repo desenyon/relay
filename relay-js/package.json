@@ -1,0 +1,29 @@
+{
+  "name": "relay-format",
+  "version": "0.1.0",
+  "description": "Production-grade data interchange format for agentic AI runtimes",
+  "main": "dist/relay.cjs.js",
+  "module": "dist/relay.esm.js",
+  "types": "dist/relay.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/relay.esm.js",
+      "require": "./dist/relay.cjs.js",
+      "types": "./dist/relay.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "test": "node --experimental-vm-modules ../node_modules/jest/bin/jest.js --config jest.config.cjs",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "rollup": "^3.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "typescript": "^5.0.0",
+    "tslib": "^2.6.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0"
+  }
+}
