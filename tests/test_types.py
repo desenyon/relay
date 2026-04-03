@@ -3,7 +3,7 @@ Tests for relay.types — constants, enumerations, and value dataclasses.
 
 Covers:
 - MAGIC and VERSION constant values
-- TypeTag integer values (0x01 – 0x19)
+- TypeTag integer values (0x01 - 0x19)
 - MessageType integer values
 - VectorDtype integer values
 - DeltaOpType string values
@@ -14,34 +14,32 @@ Covers:
 
 from __future__ import annotations
 
-import uuid
 from uuid import UUID
 
 import numpy as np
 import pytest
 
 from relay.types import (
-    MAGIC,
-    VERSION,
-    FRAME_HEADER_SIZE,
     FIELD_HEADER_SIZE,
-    TypeTag,
-    MessageType,
-    VectorDtype,
-    DeltaOpType,
-    VectorValue,
-    CodeBlock,
-    MarkdownBlock,
-    EnumValue,
-    RelayRef,
-    DeltaOp,
-    RelayField,
-    RelayMessage,
-    VECTOR_DTYPE_TO_NUMPY,
+    FRAME_HEADER_SIZE,
+    MAGIC,
     NUMPY_TO_VECTOR_DTYPE,
     VECTOR_DTYPE_ITEMSIZE,
+    VECTOR_DTYPE_TO_NUMPY,
+    VERSION,
+    CodeBlock,
+    DeltaOp,
+    DeltaOpType,
+    EnumValue,
+    MarkdownBlock,
+    MessageType,
+    RelayField,
+    RelayMessage,
+    RelayRef,
+    TypeTag,
+    VectorDtype,
+    VectorValue,
 )
-
 
 # ---------------------------------------------------------------------------
 # Wire-format constants
@@ -78,7 +76,7 @@ class TestConstants:
 
 
 class TestTypeTag:
-    """Tests for TypeTag integer values (0x01 – 0x19)."""
+    """Tests for TypeTag integer values (0x01 - 0x19)."""
 
     def test_null_is_0x01(self):
         """TypeTag.NULL == 0x01."""
