@@ -23,7 +23,6 @@ from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..schema import RelaySchema
-    from ..types import TypeTag
 
 # ---------------------------------------------------------------------------
 # Type-tag constants (mirrors relay.types.TypeTag enum values)
@@ -61,7 +60,7 @@ _TAG_DELTA_OP = 0x19
 # ---------------------------------------------------------------------------
 
 
-def from_json(data: dict[str, Any], schema: "RelaySchema") -> bytes:
+def from_json(data: dict[str, Any], schema: RelaySchema) -> bytes:
     """Convert a JSON-compatible Python dict to binary Relay bytes.
 
     Inspects the schema to determine the Relay type for each field and then
@@ -333,7 +332,7 @@ def _relay_to_json_value(type_tag: int, value: Any) -> Any:
 
 
 __all__ = [
+    "_relay_to_json_value",
     "from_json",
     "to_json",
-    "_relay_to_json_value",
 ]
