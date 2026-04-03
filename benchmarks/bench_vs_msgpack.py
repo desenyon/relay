@@ -127,6 +127,7 @@ _LARGE_SCHEMA = {
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _us(fn, iterations: int) -> float:
     elapsed = timeit.timeit(fn, number=iterations)
     return (elapsed / iterations) * 1e6
@@ -142,10 +143,9 @@ def _encode_size(data: bytes) -> str:
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Relay vs MessagePack throughput benchmark"
-    )
+    parser = argparse.ArgumentParser(description="Relay vs MessagePack throughput benchmark")
     parser.add_argument("--iterations", type=int, default=10_000)
     args = parser.parse_args()
     iters = args.iterations
@@ -196,9 +196,7 @@ def main() -> None:
     # ----- decode -----
     print()
     print("  DECODE")
-    print(
-        f"  {'Payload':<22} {'relay us/op':>12}  {'msgpack us/op':>14}  {'ratio':>8}"
-    )
+    print(f"  {'Payload':<22} {'relay us/op':>12}  {'msgpack us/op':>14}  {'ratio':>8}")
     print("-" * 90)
 
     for label, payload, schema in cases:
@@ -206,15 +204,10 @@ def main() -> None:
         msgpack_bytes = msgpack.packb(payload, use_bin_type=True)
 
         relay_dec_us = _us(lambda rb=relay_bytes: relay.decode(rb), iters)
-        msgpack_dec_us = _us(
-            lambda mb=msgpack_bytes: msgpack.unpackb(mb, raw=False), iters
-        )
+        msgpack_dec_us = _us(lambda mb=msgpack_bytes: msgpack.unpackb(mb, raw=False), iters)
         ratio = msgpack_dec_us / relay_dec_us
 
-        print(
-            f"  {label:<22} {relay_dec_us:>12.4f}  {msgpack_dec_us:>14.4f}  "
-            f"{ratio:>7.2f}x"
-        )
+        print(f"  {label:<22} {relay_dec_us:>12.4f}  {msgpack_dec_us:>14.4f}  " f"{ratio:>7.2f}x")
 
     print("=" * 90)
     print()
