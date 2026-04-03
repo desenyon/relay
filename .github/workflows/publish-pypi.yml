@@ -1,9 +1,8 @@
 name: Publish PyPI
 
+# Manual publish (requires PYPI_API_TOKEN). Tag pushes create GitHub Releases via release.yml.
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  workflow_dispatch:
 
 jobs:
   publish:
