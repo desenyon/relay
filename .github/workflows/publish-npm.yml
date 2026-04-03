@@ -1,9 +1,8 @@
 name: Publish npm
 
+# Manual publish (requires NPM_TOKEN). Tag pushes create GitHub Releases via release.yml.
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  workflow_dispatch:
 
 jobs:
   publish:
