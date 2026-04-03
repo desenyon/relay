@@ -119,7 +119,7 @@ def decode_text(text: str, *, registry: SchemaRegistry | None = None) -> RelayMe
         return decode(binary, schema=schema, validate=True)
 
     if msg_type == MessageType.DELTA:
-        if base_ref is None:
+        if base_ref is None:  # pragma: no cover — @base is required above for DELTA
             raise ParseError("DELTA missing base ref")
         ops = [_parse_delta_op_line(ln) for ln in body_lines if ln.strip()]
         base = RelayMessage(
