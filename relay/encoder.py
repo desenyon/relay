@@ -258,7 +258,7 @@ def _encode_typed_value(cf: SchemaField, value: Any, path: str) -> bytes:
             )
         return _encode_delta_op_bytes(value)
 
-    raise EncodingError(
+    raise EncodingError(  # pragma: no cover — all ``TypeTag`` values handled above
         f"Unsupported type tag {tag!r} at {path}",
         field_path=path,
     )
@@ -305,7 +305,7 @@ def _encode_int_family(tag: TypeTag, value: Any, path: str) -> bytes:
             field_path=path,
             details={"value": v},
         ) from exc
-    raise EncodingError(f"Unhandled int tag {tag}", field_path=path)
+    raise EncodingError(f"Unhandled int tag {tag}", field_path=path)  # pragma: no cover
 
 
 def _encode_datetime(value: Any, path: str) -> bytes:
@@ -553,7 +553,7 @@ def _encode_delta_op_bytes(op: DeltaOp) -> bytes:
             + struct.pack("<I", len(vb))
             + vb
         )
-    raise EncodingError(f"Unhandled delta op {op.op_type}")
+    raise EncodingError(f"Unhandled delta op {op.op_type}")  # pragma: no cover
 
 
 def _encode_delta_value(type_tag: int, value: Any) -> bytes:
