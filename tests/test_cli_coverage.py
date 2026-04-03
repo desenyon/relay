@@ -14,25 +14,12 @@ from relay.cli.main import cli
 from relay.compat import anthropic_tool_use_schema, openai_tool_call_schema
 from relay.encoder import encode
 from relay.registry import SchemaRegistry
-from relay.schema import RelaySchema
 
 
 def _registry_module():
     """``import relay.registry`` resolves to ``relay.registry`` *attribute* (CLI
     default registry); tests need the actual ``relay.registry`` submodule."""
     return importlib.import_module("relay.registry")
-
-
-@pytest.fixture
-def simple_schema() -> RelaySchema:
-    return RelaySchema.from_dict(
-        {
-            "name": "cli_ping",
-            "version": 1,
-            "fields": [{"name": "msg", "type": "string", "required": True}],
-            "enums": {},
-        }
-    )
 
 
 @pytest.fixture
@@ -45,13 +32,6 @@ def schema_file() -> Path:
     return p
 
 
-@pytest.fixture
-def isolated_registry(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> SchemaRegistry:
-    reg = SchemaRegistry(registry_dir=tmp_path / "reg")
-    monkeypatch.setattr(_registry_module(), "default_registry", reg)
-    return reg
-
-
 def test_cli_version_help() -> None:
     runner = CliRunner()
     assert runner.invoke(cli, ["--help"]).exit_code == 0
@@ -59,12 +39,12 @@ def test_cli_version_help() -> None:
 
 
 def test_inspect_pretty_json_text(
-    simple_schema: RelaySchema,
+    cli_ping_schema: object,
     tmp_path: Path,
     isolated_registry: SchemaRegistry,
 ) -> None:
-    isolated_registry.register(simple_schema)
-    data = encode({"msg": "hi"}, simple_schema)
+    isolated_registry.register(cli_ping_schema)
+    data = encode({"msg": "hi"}, cli_ping_schema)
     f = tmp_path / "m.bin"
     f.write_bytes(data)
     runner = CliRunner()
@@ -73,7 +53,7 @@ def test_inspect_pretty_json_text(
         assert r.exit_code == 0, r.output
     r2 = runner.invoke(
         cli,
-        ["inspect", str(f), "--schema", f"cli_ping:{simple_schema.hash()}"],
+        ["inspect", str(f), "--schema", f"cli_ping:{cli_ping_schema.hash()}"],
     )
     assert r2.exit_code == 0
 
@@ -85,19 +65,19 @@ def test_inspect_bad_file(tmp_path: Path) -> None:
 
 
 def test_validate_ok(
-    simple_schema: RelaySchema,
+    cli_ping_schema: object,
     tmp_path: Path,
     isolated_registry: SchemaRegistry,
 ) -> None:
-    isolated_registry.register(simple_schema)
-    data = encode({"msg": "x"}, simple_schema)
+    isolated_registry.register(cli_ping_schema)
+    data = encode({"msg": "x"}, cli_ping_schema)
     f = tmp_path / "v.bin"
     f.write_bytes(data)
     runner = CliRunner()
     assert (
         runner.invoke(
             cli,
-            ["validate", str(f), "--schema", f"cli_ping:{simple_schema.hash()}"],
+            ["validate", str(f), "--schema", f"cli_ping:{cli_ping_schema.hash()}"],
         ).exit_code
         == 0
     )
@@ -141,15 +121,15 @@ def test_schema_register_error_bad_file(tmp_path: Path, monkeypatch: pytest.Monk
 
 
 def test_convert_json_relay_roundtrip(
-    simple_schema: RelaySchema,
+    cli_ping_schema: object,
     tmp_path: Path,
     isolated_registry: SchemaRegistry,
 ) -> None:
-    isolated_registry.register(simple_schema)
+    isolated_registry.register(cli_ping_schema)
     jf = tmp_path / "p.json"
     jf.write_text(json.dumps({"msg": "yo"}), encoding="utf-8")
     runner = CliRunner()
-    sid = f"cli_ping:{simple_schema.hash()}"
+    sid = f"cli_ping:{cli_ping_schema.hash()}"
     assert (
         runner.invoke(
             cli,
@@ -174,15 +154,15 @@ def test_convert_json_relay_roundtrip(
 
 
 def test_convert_msgpack(
-    isolated_registry: SchemaRegistry, simple_schema: RelaySchema, tmp_path: Path
+    isolated_registry: SchemaRegistry, cli_ping_schema: object, tmp_path: Path
 ) -> None:
     import msgpack
 
-    isolated_registry.register(simple_schema)
+    isolated_registry.register(cli_ping_schema)
     mf = tmp_path / "p.mp"
     mf.write_bytes(msgpack.packb({"msg": "m"}))
     runner = CliRunner()
-    sid = f"cli_ping:{simple_schema.hash()}"
+    sid = f"cli_ping:{cli_ping_schema.hash()}"
     assert (
         runner.invoke(
             cli,
@@ -193,15 +173,15 @@ def test_convert_msgpack(
 
 
 def test_convert_msgpack_bad_root(
-    isolated_registry: SchemaRegistry, simple_schema: RelaySchema, tmp_path: Path
+    isolated_registry: SchemaRegistry, cli_ping_schema: object, tmp_path: Path
 ) -> None:
     import msgpack
 
-    isolated_registry.register(simple_schema)
+    isolated_registry.register(cli_ping_schema)
     mf = tmp_path / "p.mp"
     mf.write_bytes(msgpack.packb([1, 2, 3]))
     runner = CliRunner()
-    sid = f"cli_ping:{simple_schema.hash()}"
+    sid = f"cli_ping:{cli_ping_schema.hash()}"
     r = runner.invoke(
         cli,
         ["convert", str(mf), "--from", "msgpack", "--to", "json", "--schema", sid],
