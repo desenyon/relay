@@ -328,8 +328,7 @@ class RelayTextEncoder:
             return [f"{pad}{name}: bool {'true' if value else 'false'}"]
 
         # -- integer types --
-        if type_name in ("int8", "int16", "int32", "int64",
-                         "uint8", "uint16", "uint32", "uint64"):
+        if type_name in ("int8", "int16", "int32", "int64", "uint8", "uint16", "uint32", "uint64"):
             if not isinstance(value, int) or isinstance(value, bool):
                 raise TypeMismatchError(
                     f"Field '{name}' expects {type_name}, got {type(value).__name__}",
@@ -356,7 +355,7 @@ class RelayTextEncoder:
                     field_path=name,
                     details={"expected": "string", "got": type(value).__name__},
                 )
-            return [f'{pad}{name}: string {_quote_string(value)}']
+            return [f"{pad}{name}: string {_quote_string(value)}"]
 
         # -- bytes --
         if type_name == "bytes":
@@ -518,8 +517,7 @@ class RelayTextEncoder:
                     child_schema_field.type_name if child_schema_field else _infer_type(child_val)
                 )
                 child_lines = self._encode_field_text(
-                    child_name, child_type, child_val,
-                    child_schema_field, indent + 1
+                    child_name, child_type, child_val, child_schema_field, indent + 1
                 )
                 result.extend(child_lines)
             return result
@@ -557,9 +555,7 @@ class RelayTextEncoder:
             result = [f"{pad}{name}: array"]
             for idx, item in enumerate(value):
                 item_type = _infer_type(item)
-                child_lines = self._encode_field_text(
-                    f"[{idx}]", item_type, item, None, indent + 1
-                )
+                child_lines = self._encode_field_text(f"[{idx}]", item_type, item, None, indent + 1)
                 result.extend(child_lines)
             return result
 
@@ -770,8 +766,7 @@ def _encode_value_inline(type_name: str, value: Any) -> str:
         return "null"
     if type_name == "bool":
         return "true" if value else "false"
-    if type_name in ("int8", "int16", "int32", "int64",
-                     "uint8", "uint16", "uint32", "uint64"):
+    if type_name in ("int8", "int16", "int32", "int64", "uint8", "uint16", "uint32", "uint64"):
         return str(int(value))
     if type_name in ("float32", "float64"):
         return _format_float(value)
