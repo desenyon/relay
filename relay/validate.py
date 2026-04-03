@@ -26,7 +26,6 @@ from typing import TYPE_CHECKING, Any
 from relay.errors import TypeMismatchError, ValidationError
 from relay.types import (
     EnumValue,
-    MessageType,
     RelayField,
     RelayMessage,
     TypeTag,
@@ -306,7 +305,7 @@ def _validate_enum(
     if index < 0 or index >= len(enum_values):
         raise ValidationError(
             f"Enum value index {index} is out of range for field '{path}' "
-            f"(valid range 0–{len(enum_values) - 1})",
+            f"(valid range 0-{len(enum_values) - 1})",
             field_path=path,
             details={
                 "index": index,
@@ -693,7 +692,7 @@ def _check_python_type_compatibility(
 
 __all__ = [
     "TYPE_NAME_TO_TAG",
-    "validate_message",
-    "validate_field",
     "validate_dict",
+    "validate_field",
+    "validate_message",
 ]
