@@ -1,0 +1,13 @@
+{
+  "name": "relay-format",
+  "version": "0.1.0",
+  "description": "Production-grade data interchange format for agentic AI runtimes",
+  "author": "Naitik Gupta <naitik@saerinresearch.ai>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/desenyon/relay.git"
+  },
+  "keywords": ["relay", "wire-format", "ai", "agents", "binary", "streaming"],
+  "workspaces": ["relay-js"]
+}
