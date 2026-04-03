@@ -13,7 +13,6 @@ from __future__ import annotations
 
 from typing import Any
 
-
 # ---------------------------------------------------------------------------
 # Base
 # ---------------------------------------------------------------------------
@@ -424,7 +423,7 @@ class RegistryError(RelayError):
         super().__init__(message, code="E009", field_path=field_path, details=details)
 
 
-class SchemaHashMismatch(RelayError):
+class SchemaHashMismatch(RelayError):  # noqa: N818 - stable public error type name
     """Raised when the 4-byte schema hash in a frame header does not match any registered schema.
 
     Error code: ``E010``.
@@ -464,19 +463,19 @@ class SchemaHashMismatch(RelayError):
 # ---------------------------------------------------------------------------
 
 # Public API name (CLAUDE.md); avoid clashing with builtins on star-imports.
-ReferenceError = RelayReferenceError  # noqa: A001
+ReferenceError = RelayReferenceError
 
 __all__ = [
-    "RelayError",
-    "ParseError",
-    "TypeMismatchError",
-    "SchemaNotFoundError",
-    "RelayReferenceError",
-    "ReferenceError",
-    "DeltaConflictError",
-    "ValidationError",
-    "EncodingError",
     "DecodingError",
+    "DeltaConflictError",
+    "EncodingError",
+    "ParseError",
+    "ReferenceError",
     "RegistryError",
+    "RelayError",
+    "RelayReferenceError",
     "SchemaHashMismatch",
+    "SchemaNotFoundError",
+    "TypeMismatchError",
+    "ValidationError",
 ]
