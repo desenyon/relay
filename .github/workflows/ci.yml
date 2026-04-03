@@ -22,7 +22,7 @@ jobs:
           ruff check relay/ tests/
           black --check relay/ tests/
       - name: Test
-        run: pytest tests/ -q --cov=relay --cov-report=term-missing --cov-fail-under=70
+        run: pytest tests/ -q --cov=relay --cov-report=term-missing --cov-fail-under=94
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
