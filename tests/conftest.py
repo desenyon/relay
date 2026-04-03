@@ -8,15 +8,43 @@ depend on any specific ``.rschema`` file being present on disk.
 
 from __future__ import annotations
 
+import importlib
 from pathlib import Path
 from typing import Any
 from uuid import UUID
 
 import pytest
 
+from relay.registry import SchemaRegistry
+
 # ---------------------------------------------------------------------------
 # Schema fixtures
 # ---------------------------------------------------------------------------
+
+
+@pytest.fixture(scope="session")
+def cli_ping_schema():
+    """Minimal one-field schema used by CLI integration tests."""
+
+    from relay.schema import RelaySchema
+
+    return RelaySchema.from_dict(
+        {
+            "name": "cli_ping",
+            "version": 1,
+            "fields": [{"name": "msg", "type": "string", "required": True}],
+            "enums": {},
+        }
+    )
+
+
+@pytest.fixture
+def isolated_registry(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> SchemaRegistry:
+    """Empty registry at tmp_path/reg, installed as ``relay.registry.default_registry``."""
+
+    reg = SchemaRegistry(registry_dir=tmp_path / "reg")
+    monkeypatch.setattr(importlib.import_module("relay.registry"), "default_registry", reg)
+    return reg
 
 
 @pytest.fixture(scope="session")
