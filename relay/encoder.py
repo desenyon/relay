@@ -21,6 +21,7 @@ from relay.types import (
     FIELD_HEADER_SIZE,
     FRAME_HEADER_SIZE,
     MAGIC,
+    VECTOR_DTYPE_ITEMSIZE,
     VERSION,
     CodeBlock,
     DeltaOp,
@@ -33,7 +34,6 @@ from relay.types import (
     TypeTag,
     VectorDtype,
     VectorValue,
-    VECTOR_DTYPE_ITEMSIZE,
 )
 from relay.validate import validate_dict
 
@@ -386,14 +386,14 @@ def _encode_vector(cf: SchemaField, value: Any, path: str) -> bytes:
                 f"Vector at {path} must have shape ({dim},), got {value.shape}",
                 field_path=path,
             )
-        arr = value.astype(VECTOR_DTYPE_TO_NP(dtype), copy=False)
+        arr = value.astype(vector_dtype_to_np(dtype), copy=False)
     elif isinstance(value, (list, tuple)):
         if len(value) != dim:
             raise TypeMismatchError(
                 f"Vector at {path} needs length {dim}, got {len(value)}",
                 field_path=path,
             )
-        arr = np.array(value, dtype=VECTOR_DTYPE_TO_NP(dtype))
+        arr = np.array(value, dtype=vector_dtype_to_np(dtype))
     else:
         raise TypeMismatchError(
             f"Vector field {path} expects list, ndarray, or VectorValue",
@@ -406,7 +406,7 @@ def _encode_vector(cf: SchemaField, value: Any, path: str) -> bytes:
     return body
 
 
-def VECTOR_DTYPE_TO_NP(dt: VectorDtype) -> type:
+def vector_dtype_to_np(dt: VectorDtype) -> type:
     return {
         VectorDtype.FLOAT16: np.float16,
         VectorDtype.FLOAT32: np.float32,
@@ -560,4 +560,4 @@ def _encode_delta_value(type_tag: int, value: Any) -> bytes:
     return _encode_typed_value(cf, value, "__delta__")
 
 
-__all__ = ["encode", "_build_frame", "_pack_field_frame"]
+__all__ = ["_build_frame", "_pack_field_frame", "encode"]
