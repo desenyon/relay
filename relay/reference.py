@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import Any
 
 from relay.errors import RelayReferenceError
-from relay.types import RelayField, RelayMessage, RelayRef, TypeTag
+from relay.types import RelayField, RelayMessage, TypeTag
 
 
 def resolve_path(message: RelayMessage, field_path: str) -> Any:
