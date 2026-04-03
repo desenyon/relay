@@ -334,8 +334,7 @@ def _decode_payload(
     compiled: Any,
     source_schema: SourceSchema | None,
 ) -> list[RelayField]:
-    if msg_type == MessageType.SCHEMA_DEF:
-        return _decode_schema_def_payload(payload)
+    # SCHEMA_DEF is handled entirely in ``_decode_one`` and never routed here.
 
     if msg_type == MessageType.REF_ONLY:
         return _decode_ref_only_payload(payload, compiled)
@@ -522,7 +521,7 @@ def _decode_value(
         return _decode_object(raw, sf, path)
     if tag == TypeTag.DELTA_OP:
         return _decode_delta_op(raw, path)
-    raise DecodingError(
+    raise DecodingError(  # pragma: no cover — all ``TypeTag`` values handled above
         f"Unsupported type tag {tag!r}",
         field_path=path,
     )
@@ -652,7 +651,7 @@ def _decode_delta_op(raw: bytes, path: str) -> DeltaOp:
             splice_start=start,
             splice_end=end,
         )
-    raise ParseError("Unhandled delta op", field_path=path)
+    raise ParseError("Unhandled delta op", field_path=path)  # pragma: no cover
 
 
 def _decode_delta_value(tag: TypeTag, raw: bytes) -> Any:
