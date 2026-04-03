@@ -162,7 +162,7 @@ make build      # Python wheel + relay-js bundle
 ## Releases
 
 - Pushing a tag matching `v*.*.*` triggers [`.github/workflows/release.yml`](.github/workflows/release.yml) (GitHub Release + attached Python sdist/wheel).
-- Optional PyPI/npm publish workflows are under [`.github/workflows/`](.github/workflows/) and expect `PYPI_API_TOKEN` / `NPM_TOKEN` secrets when you enable them.
+- PyPI and npm publishing use **Actions → Run workflow** on [Publish PyPI](.github/workflows/publish-pypi.yml) and [Publish npm](.github/workflows/publish-npm.yml) after configuring `PYPI_API_TOKEN` and `NPM_TOKEN` repository secrets.
 
 ## Roadmap (vs full CLAUDE.md target)
 
