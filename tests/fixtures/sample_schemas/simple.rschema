@@ -1,0 +1,9 @@
+schema simple {
+  version: 1
+  fields:
+    name:   string  required
+    count:  int32   required
+    flag:   bool    optional
+    score:  float64 optional
+    note:   string  optional
+}
