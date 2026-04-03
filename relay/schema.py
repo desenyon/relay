@@ -35,7 +35,6 @@ from typing import Any
 
 from relay.errors import ParseError, SchemaNotFoundError, ValidationError
 
-
 # ---------------------------------------------------------------------------
 # Schema field definition
 # ---------------------------------------------------------------------------
@@ -470,7 +469,7 @@ def _parse_field_dict(d: dict[str, Any]) -> SchemaField:
     )
 
 
-def _parse_rschema_text(text: str) -> RelaySchema:  # noqa: C901 (complex but straightforward)
+def _parse_rschema_text(text: str) -> RelaySchema:
     """Parse the ``.rschema`` text format into a ``RelaySchema``.
 
     The grammar is:
@@ -681,6 +680,6 @@ def _parse_field_line(
 # ---------------------------------------------------------------------------
 
 __all__ = [
-    "SchemaField",
     "RelaySchema",
+    "SchemaField",
 ]
