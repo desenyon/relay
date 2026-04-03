@@ -151,6 +151,6 @@ def to_openai_tool_call(data: bytes) -> dict[str, Any]:
 
 __all__ = [
     "from_openai_tool_call",
-    "to_openai_tool_call",
     "openai_tool_call_schema",
+    "to_openai_tool_call",
 ]
