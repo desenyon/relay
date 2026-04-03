@@ -1,0 +1,22 @@
+schema agent_tool_call {
+  version: 1
+  fields:
+    role:       enum<MessageRole> required
+    content:    markdown_block    optional
+    tool_call:  object            optional {
+      id:       uuid              required
+      name:     string            required
+      arguments: string          required
+    }
+    result:     object            optional {
+      output:   string            required
+      error:    string            optional
+    }
+}
+
+enum MessageRole {
+  system
+  user
+  assistant
+  tool
+}
