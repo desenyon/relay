@@ -113,7 +113,7 @@ def to_anthropic_tool_use(data: bytes) -> dict[str, Any]:
 
 
 __all__ = [
+    "anthropic_tool_use_schema",
     "from_anthropic_tool_use",
     "to_anthropic_tool_use",
-    "anthropic_tool_use_schema",
 ]
