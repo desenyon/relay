@@ -32,7 +32,6 @@ from typing import Any
 import click
 from rich.console import Console
 from rich.tree import Tree
-from rich import print as rprint
 
 console = Console()
 
