@@ -13,8 +13,8 @@ import re
 from typing import TYPE_CHECKING
 
 from relay.errors import ParseError, SchemaNotFoundError
-from relay.types import SchemaField as CompiledField
 from relay.types import RelaySchema as CompiledSchema
+from relay.types import SchemaField as CompiledField
 from relay.types import TypeTag, VectorDtype
 
 if TYPE_CHECKING:
@@ -96,9 +96,6 @@ def _resolve_type(
 ) -> tuple[TypeTag, VectorDtype | None, int | None, list[str], TypeTag | None]:
     """Return (type_tag, vector_dtype, vector_dim, enum_values, element_type_tag)."""
     enum_vals: list[str] = []
-    vec_dtype: VectorDtype | None = None
-    vec_dim: int | None = None
-    elem_tag: TypeTag | None = None
 
     if tname.startswith("enum<") and tname.endswith(">"):
         en = sf.enum_name
@@ -128,8 +125,8 @@ def _resolve_type(
     am = _ARRAY_RE.match(tname)
     if am:
         inner = (am.group(1) or "string").strip()
-        elem_tag = _simple_type_name_to_tag(inner)
-        return TypeTag.ARRAY, None, None, [], elem_tag
+        array_elem_tag = _simple_type_name_to_tag(inner)
+        return TypeTag.ARRAY, None, None, [], array_elem_tag
 
     if tname.startswith("code_block"):
         return TypeTag.CODE_BLOCK, None, None, [], None
