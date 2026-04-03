@@ -369,12 +369,8 @@ class RelaySchema:
                 details={"keys_present": list(d.keys())},
             ) from exc
 
-        enums: dict[str, list[str]] = {
-            k: list(v) for k, v in d.get("enums", {}).items()
-        }
-        fields = [
-            _parse_field_dict(fd) for fd in d.get("fields", [])
-        ]
+        enums: dict[str, list[str]] = {k: list(v) for k, v in d.get("enums", {}).items()}
+        fields = [_parse_field_dict(fd) for fd in d.get("fields", [])]
         return cls(name=name, version=version, fields=fields, enums=enums)
 
     @classmethod
@@ -458,9 +454,7 @@ def _parse_field_dict(d: dict[str, Any]) -> SchemaField:
         ) from exc
 
     required = bool(d.get("required", True))
-    nested: list[SchemaField] = [
-        _parse_field_dict(fd) for fd in d.get("fields", [])
-    ]
+    nested: list[SchemaField] = [_parse_field_dict(fd) for fd in d.get("fields", [])]
     return SchemaField(
         name=name,
         type_name=type_name,
@@ -667,12 +661,15 @@ def _parse_field_line(
         child, i = _parse_field_line(lines, i, next_indent, n)
         nested_fields.append(child)
 
-    return SchemaField(
-        name=field_name,
-        type_name=type_name,
-        required=required,
-        nested_fields=nested_fields,
-    ), i
+    return (
+        SchemaField(
+            name=field_name,
+            type_name=type_name,
+            required=required,
+            nested_fields=nested_fields,
+        ),
+        i,
+    )
 
 
 # ---------------------------------------------------------------------------
