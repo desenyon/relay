@@ -15,13 +15,9 @@ from relay.errors import ParseError, TypeMismatchError
 from relay.schema import RelaySchema
 from relay.types import (
     CodeBlock,
-    DeltaOp,
-    DeltaOpType,
     EnumValue,
     MarkdownBlock,
     MessageType,
-    RelayField,
-    RelayMessage,
     RelayRef,
     TypeTag,
     VectorDtype,
