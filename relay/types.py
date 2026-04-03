@@ -19,14 +19,12 @@ FIELD_HEADER_SIZE : int
 
 from __future__ import annotations
 
-import struct
 from dataclasses import dataclass, field
 from enum import Enum, IntEnum
 from typing import Any
 from uuid import UUID
 
 import numpy as np
-
 
 # ---------------------------------------------------------------------------
 # Wire-format constants
@@ -606,13 +604,13 @@ class SchemaField:
     type_tag: TypeTag
     field_id: int
     required: bool = True
-    sub_fields: list["SchemaField"] = field(default_factory=list)
+    sub_fields: list[SchemaField] = field(default_factory=list)
     enum_values: list[str] = field(default_factory=list)
     vector_dtype: VectorDtype | None = None
     vector_dim: int | None = None
     element_type_tag: TypeTag | None = None
 
-    def sub_field_by_name(self, name: str) -> "SchemaField | None":
+    def sub_field_by_name(self, name: str) -> SchemaField | None:
         """Return the nested ``SchemaField`` matching *name*, or ``None``.
 
         Parameters
@@ -628,7 +626,7 @@ class SchemaField:
                 return sf
         return None
 
-    def sub_field_by_id(self, field_id: int) -> "SchemaField | None":
+    def sub_field_by_id(self, field_id: int) -> SchemaField | None:
         """Return the nested ``SchemaField`` matching *field_id*, or ``None``.
 
         Parameters
@@ -726,31 +724,31 @@ class RelaySchema:
 # ---------------------------------------------------------------------------
 
 __all__ = [
+    "FIELD_HEADER_SIZE",
+    "FRAME_HEADER_SIZE",
     # Constants
     "MAGIC",
+    "NUMPY_TO_VECTOR_DTYPE",
+    "VECTOR_DTYPE_ITEMSIZE",
+    # Helpers
+    "VECTOR_DTYPE_TO_NUMPY",
     "VERSION",
-    "FRAME_HEADER_SIZE",
-    "FIELD_HEADER_SIZE",
-    # Enums
-    "TypeTag",
-    "MessageType",
-    "VectorDtype",
-    "DeltaOpType",
-    # Value types
-    "VectorValue",
     "CodeBlock",
-    "MarkdownBlock",
-    "EnumValue",
-    "RelayRef",
     "DeltaOp",
-    # Schema structures
-    "SchemaField",
-    "RelaySchema",
+    "DeltaOpType",
+    "EnumValue",
+    "MarkdownBlock",
+    "MessageType",
     # Message structures
     "RelayField",
     "RelayMessage",
-    # Helpers
-    "VECTOR_DTYPE_TO_NUMPY",
-    "NUMPY_TO_VECTOR_DTYPE",
-    "VECTOR_DTYPE_ITEMSIZE",
+    "RelayRef",
+    "RelaySchema",
+    # Schema structures
+    "SchemaField",
+    # Enums
+    "TypeTag",
+    "VectorDtype",
+    # Value types
+    "VectorValue",
 ]
