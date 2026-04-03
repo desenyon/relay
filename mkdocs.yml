@@ -1,0 +1,22 @@
+site_name: Relay
+site_url: https://desenyon.github.io/relay/
+repo_url: https://github.com/desenyon/relay
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Quickstart: quickstart.md
+  - Wire format: wire_format.md
+  - Text format: text_format.md
+  - Schema guide: schema_guide.md
+  - Types reference: types_reference.md
+  - Delta guide: delta_guide.md
+  - Reference guide: reference_guide.md
+  - Compat guide: compat_guide.md
+  - CLI reference: cli_reference.md
+  - FAQ: faq.md
+  - Changelog: CHANGELOG.md
+plugins:
+  - search
+markdown_extensions:
+  - pymdownx.superfences
