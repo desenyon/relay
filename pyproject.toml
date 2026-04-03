@@ -68,6 +68,9 @@ ignore = ["E501"]
 [tool.ruff.isort]
 known-first-party = ["relay"]
 
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["N802", "PT018"]
+
 [tool.mypy]
 python_version = "3.10"
 strict = true
