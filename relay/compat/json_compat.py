@@ -225,8 +225,14 @@ def _relay_to_json_value(type_tag: int, value: Any) -> Any:
         return bool(value)
 
     if type_tag in (
-        _TAG_INT8, _TAG_INT16, _TAG_INT32, _TAG_INT64,
-        _TAG_UINT8, _TAG_UINT16, _TAG_UINT32, _TAG_UINT64,
+        _TAG_INT8,
+        _TAG_INT16,
+        _TAG_INT32,
+        _TAG_INT64,
+        _TAG_UINT8,
+        _TAG_UINT16,
+        _TAG_UINT32,
+        _TAG_UINT64,
     ):
         return int(value)
 
@@ -310,11 +316,7 @@ def _relay_to_json_value(type_tag: int, value: Any) -> Any:
             return merged
         if isinstance(value, dict):
             return {
-                k: (
-                    _relay_to_json_value(v[0], v[1])
-                    if isinstance(v, tuple) and len(v) == 2
-                    else v
-                )
+                k: (_relay_to_json_value(v[0], v[1]) if isinstance(v, tuple) and len(v) == 2 else v)
                 for k, v in value.items()
             }
         return value
