@@ -28,11 +28,11 @@ import importlib.metadata
 
 import click
 
-from .commands.inspect import inspect_cmd
-from .commands.validate import validate_cmd
-from .commands.convert import convert_cmd
-from .commands.schema import schema_group
 from .commands.bench import bench_cmd
+from .commands.convert import convert_cmd
+from .commands.inspect import inspect_cmd
+from .commands.schema import schema_group
+from .commands.validate import validate_cmd
 
 
 def _get_version() -> str:
