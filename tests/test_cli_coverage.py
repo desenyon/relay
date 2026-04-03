@@ -173,7 +173,9 @@ def test_convert_json_relay_roundtrip(
     )
 
 
-def test_convert_msgpack(isolated_registry: SchemaRegistry, simple_schema: RelaySchema, tmp_path: Path) -> None:
+def test_convert_msgpack(
+    isolated_registry: SchemaRegistry, simple_schema: RelaySchema, tmp_path: Path
+) -> None:
     import msgpack
 
     isolated_registry.register(simple_schema)
@@ -190,7 +192,9 @@ def test_convert_msgpack(isolated_registry: SchemaRegistry, simple_schema: Relay
     )
 
 
-def test_convert_msgpack_bad_root(isolated_registry: SchemaRegistry, simple_schema: RelaySchema, tmp_path: Path) -> None:
+def test_convert_msgpack_bad_root(
+    isolated_registry: SchemaRegistry, simple_schema: RelaySchema, tmp_path: Path
+) -> None:
     import msgpack
 
     isolated_registry.register(simple_schema)
@@ -320,6 +324,8 @@ def test_bench_runs_subprocess(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) 
 
     monkeypatch.setattr(bench_mod.subprocess, "call", _call)
     runner = CliRunner()
-    r = runner.invoke(cli, ["bench", "--iterations", "10", "--payload-size", "small", "--compare", "json"])
+    r = runner.invoke(
+        cli, ["bench", "--iterations", "10", "--payload-size", "small", "--compare", "json"]
+    )
     assert r.exit_code == 0
     assert calls
