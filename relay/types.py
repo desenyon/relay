@@ -33,7 +33,7 @@ import numpy as np
 MAGIC: int = 0xDE  # 222 decimal
 VERSION: int = 0x01
 FRAME_HEADER_SIZE: int = 12  # magic(1) + version(1) + msg_type(2) + schema_hash(4) + payload_len(4)
-FIELD_HEADER_SIZE: int = 7   # field_id(2) + type_tag(1) + field_len(4)
+FIELD_HEADER_SIZE: int = 7  # field_id(2) + type_tag(1) + field_len(4)
 
 
 # ---------------------------------------------------------------------------
@@ -55,31 +55,31 @@ class TypeTag(IntEnum):
     '0x11'
     """
 
-    NULL           = 0x01
-    BOOL           = 0x02
-    INT8           = 0x03
-    INT16          = 0x04
-    INT32          = 0x05
-    INT64          = 0x06
-    UINT8          = 0x07
-    UINT16         = 0x08
-    UINT32         = 0x09
-    UINT64         = 0x0A
-    FLOAT32        = 0x0B
-    FLOAT64        = 0x0C
-    STRING         = 0x0D
-    BYTES          = 0x0E
-    ARRAY          = 0x0F
-    OBJECT         = 0x10
-    UUID           = 0x11
-    DATETIME       = 0x12
-    URI            = 0x13
-    VECTOR         = 0x14
-    ENUM           = 0x15
-    CODE_BLOCK     = 0x16
+    NULL = 0x01
+    BOOL = 0x02
+    INT8 = 0x03
+    INT16 = 0x04
+    INT32 = 0x05
+    INT64 = 0x06
+    UINT8 = 0x07
+    UINT16 = 0x08
+    UINT32 = 0x09
+    UINT64 = 0x0A
+    FLOAT32 = 0x0B
+    FLOAT64 = 0x0C
+    STRING = 0x0D
+    BYTES = 0x0E
+    ARRAY = 0x0F
+    OBJECT = 0x10
+    UUID = 0x11
+    DATETIME = 0x12
+    URI = 0x13
+    VECTOR = 0x14
+    ENUM = 0x15
+    CODE_BLOCK = 0x16
     MARKDOWN_BLOCK = 0x17
-    REF            = 0x18
-    DELTA_OP       = 0x19
+    REF = 0x18
+    DELTA_OP = 0x19
 
 
 class MessageType(IntEnum):
@@ -93,11 +93,11 @@ class MessageType(IntEnum):
     <MessageType.DELTA: 2>
     """
 
-    FULL       = 0x0001
-    DELTA      = 0x0002
-    REF_ONLY   = 0x0003
+    FULL = 0x0001
+    DELTA = 0x0002
+    REF_ONLY = 0x0003
     SCHEMA_DEF = 0x0004
-    ERROR      = 0x0005
+    ERROR = 0x0005
 
 
 class VectorDtype(IntEnum):
@@ -115,7 +115,7 @@ class VectorDtype(IntEnum):
     FLOAT16 = 0x01
     FLOAT32 = 0x02
     FLOAT64 = 0x03
-    INT8    = 0x04
+    INT8 = 0x04
 
 
 class DeltaOpType(str, Enum):
@@ -172,9 +172,7 @@ class VectorValue:
 
     def __post_init__(self) -> None:
         if len(self.data) != self.dim:
-            raise ValueError(
-                f"VectorValue: dim={self.dim} but data has {len(self.data)} elements"
-            )
+            raise ValueError(f"VectorValue: dim={self.dim} but data has {len(self.data)} elements")
 
     # numpy arrays are not hashable; provide a custom __hash__ so the dataclass
     # frozen=True still works for identity purposes.
@@ -489,8 +487,7 @@ def _field_to_dict(f: RelayField) -> dict[str, Any]:
         case TypeTag.ARRAY:
             if isinstance(value, list):
                 value = [
-                    _field_to_dict(item) if isinstance(item, RelayField) else item
-                    for item in value
+                    _field_to_dict(item) if isinstance(item, RelayField) else item for item in value
                 ]
         case TypeTag.VECTOR:
             if isinstance(value, VectorValue):
@@ -541,20 +538,18 @@ VECTOR_DTYPE_TO_NUMPY: dict[VectorDtype, str] = {
     VectorDtype.FLOAT16: "float16",
     VectorDtype.FLOAT32: "float32",
     VectorDtype.FLOAT64: "float64",
-    VectorDtype.INT8:    "int8",
+    VectorDtype.INT8: "int8",
 }
 
 #: Map from numpy dtype string to ``VectorDtype``.
-NUMPY_TO_VECTOR_DTYPE: dict[str, VectorDtype] = {
-    v: k for k, v in VECTOR_DTYPE_TO_NUMPY.items()
-}
+NUMPY_TO_VECTOR_DTYPE: dict[str, VectorDtype] = {v: k for k, v in VECTOR_DTYPE_TO_NUMPY.items()}
 
 #: Number of bytes per element for each ``VectorDtype``.
 VECTOR_DTYPE_ITEMSIZE: dict[VectorDtype, int] = {
     VectorDtype.FLOAT16: 2,
     VectorDtype.FLOAT32: 4,
     VectorDtype.FLOAT64: 8,
-    VectorDtype.INT8:    1,
+    VectorDtype.INT8: 1,
 }
 
 
