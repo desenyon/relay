@@ -212,11 +212,11 @@ def simple_message_dict() -> dict[str, Any]:
     dict
     """
     return {
-        "name":  "relay-test",
+        "name": "relay-test",
         "count": 42,
-        "flag":  True,
+        "flag": True,
         "score": 3.14,
-        "note":  "hello world",
+        "note": "hello world",
     }
 
 
@@ -231,14 +231,14 @@ def tool_call_message_dict() -> dict[str, Any]:
     from relay.types import EnumValue, MarkdownBlock
 
     return {
-        "role":    EnumValue(name="assistant", index=2),
+        "role": EnumValue(name="assistant", index=2),
         "content": MarkdownBlock(content="Here is the result."),
         "tool_call": {
-            "id":   UUID("550e8400-e29b-41d4-a716-446655440000"),
+            "id": UUID("550e8400-e29b-41d4-a716-446655440000"),
             "name": "calculate_npv",
             "arguments": {
                 "discount_rate": 0.08,
-                "cash_flows":    [100.0, 200.0, 300.0],
+                "cash_flows": [100.0, 200.0, 300.0],
             },
         },
     }
@@ -253,10 +253,10 @@ def openai_tool_call_dict() -> dict[str, Any]:
     dict
     """
     return {
-        "id":   "call_abc123xyz",
+        "id": "call_abc123xyz",
         "type": "function",
         "function": {
-            "name":      "get_weather",
+            "name": "get_weather",
             "arguments": '{"location": "San Francisco, CA", "unit": "celsius"}',
         },
     }
@@ -271,12 +271,12 @@ def anthropic_tool_use_dict() -> dict[str, Any]:
     dict
     """
     return {
-        "id":    "toolu_01XFDUDYJgAACTU45D4GV1t3",
-        "type":  "tool_use",
-        "name":  "search_web",
+        "id": "toolu_01XFDUDYJgAACTU45D4GV1t3",
+        "type": "tool_use",
+        "name": "search_web",
         "input": {
-            "query":   "latest news on agentic AI",
-            "limit":   5,
+            "query": "latest news on agentic AI",
+            "limit": 5,
             "verbose": False,
         },
     }
@@ -332,11 +332,11 @@ def tmp_schema_file(tmp_path: Path, simple_schema) -> Path:
                 "name": "simple",
                 "version": 1,
                 "fields": {
-                    "name":  {"type": "string",  "required": True},
-                    "count": {"type": "int32",   "required": True},
-                    "flag":  {"type": "bool",    "required": False},
+                    "name": {"type": "string", "required": True},
+                    "count": {"type": "int32", "required": True},
+                    "flag": {"type": "bool", "required": False},
                     "score": {"type": "float64", "required": False},
-                    "note":  {"type": "string",  "required": False},
+                    "note": {"type": "string", "required": False},
                 },
             }
         ),
