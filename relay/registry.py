@@ -175,13 +175,15 @@ class SchemaRegistry:
         self._ensure_loaded()
         result: list[dict[str, Any]] = []
         for key, schema in self._cache.items():
-            result.append({
-                "name": schema.name,
-                "hash": schema.hash(),
-                "version": schema.version,
-                "field_count": len(schema.fields),
-                "key": key,
-            })
+            result.append(
+                {
+                    "name": schema.name,
+                    "hash": schema.hash(),
+                    "version": schema.version,
+                    "field_count": len(schema.fields),
+                    "key": key,
+                }
+            )
         return sorted(result, key=lambda x: (x["name"], x["hash"]))
 
     def delete(self, name: str, hash_hex: str) -> None:
