@@ -153,8 +153,14 @@ def _encode_typed_value(cf: SchemaField, value: Any, path: str) -> bytes:
         return b"\x01" if value else b"\x00"
 
     if tag in (
-        TypeTag.INT8, TypeTag.INT16, TypeTag.INT32, TypeTag.INT64,
-        TypeTag.UINT8, TypeTag.UINT16, TypeTag.UINT32, TypeTag.UINT64,
+        TypeTag.INT8,
+        TypeTag.INT16,
+        TypeTag.INT32,
+        TypeTag.INT64,
+        TypeTag.UINT8,
+        TypeTag.UINT16,
+        TypeTag.UINT32,
+        TypeTag.UINT64,
     ):
         return _encode_int_family(tag, value, path)
 
@@ -537,11 +543,7 @@ def _encode_delta_op_bytes(op: DeltaOp) -> bytes:
         vb = _encode_delta_value(int(op.type_tag), op.value)
         return head + bytes([int(op.type_tag) & 0xFF]) + struct.pack("<I", len(vb)) + vb
     if op.op_type == DeltaOpType.SPL:
-        if (
-            op.splice_start is None
-            or op.splice_end is None
-            or op.type_tag is None
-        ):
+        if op.splice_start is None or op.splice_end is None or op.type_tag is None:
             raise EncodingError("SPL delta op requires splice_start, splice_end, type_tag")
         vb = _encode_delta_value(int(op.type_tag), op.value)
         return (
