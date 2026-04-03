@@ -570,7 +570,7 @@ class TestRelayMessage:
     def _make_message(self) -> RelayMessage:
         ev = EnumValue(name="assistant", index=2)
         fields = [
-            RelayField(field_id=1, name="role",  type_tag=TypeTag.ENUM,   value=ev),
+            RelayField(field_id=1, name="role", type_tag=TypeTag.ENUM, value=ev),
             RelayField(field_id=2, name="score", type_tag=TypeTag.FLOAT64, value=3.14),
         ]
         return RelayMessage(
