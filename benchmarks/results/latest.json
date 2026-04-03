@@ -1,0 +1,6 @@
+{
+  "generated": "2026-04-03",
+  "note": "Run `make bench` locally to refresh benchmark numbers.",
+  "relay_encode_ops_per_s": null,
+  "json_encode_ops_per_s": null
+}
